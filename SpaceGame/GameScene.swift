@@ -1,11 +1,3 @@
-//
-//  GameScene.swift
-//  SpaceGame
-//
-//  Created by Hugo Durand  on 23/10/2019.
-//  Copyright © 2019 ESGI. All rights reserved.
-//
-
 import SpriteKit
 import CoreMotion
 import GameplayKit
@@ -15,6 +7,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var starfield:SKEmitterNode!
     var starship:StarShip!
+    var explosionSound = SKAction.playSoundFileNamed("explosion.mp3", waitForCompletion: false)
     var backgroundGradient: SKSpriteNode!
     var scoreLabel: SKLabelNode!
     var score: Int = 0{
@@ -144,89 +137,60 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        fireMissile()
+        starship.fireMissile(scene: self, photonMissileCategory: photonMissileCategory, vilainCategory: vilainCategory)
         }
-    
-    func fireMissile() {
-        self.run(SKAction.playSoundFileNamed("torpedo.mp3", waitForCompletion: false))
         
-        let missileNode = SKSpriteNode(imageNamed: "missile")
-        missileNode.position = starship.position
-        missileNode.position.y += 5
         
-        missileNode.physicsBody = SKPhysicsBody(circleOfRadius: missileNode.size.width / 2)
-        missileNode.physicsBody?.isDynamic = true
+    func didBegin(_ contact: SKPhysicsContact) {
+        var firstBody:SKPhysicsBody
+        var secondBody:SKPhysicsBody
         
-        missileNode.physicsBody?.categoryBitMask = photonMissileCategory
-        missileNode.physicsBody?.contactTestBitMask = vilainCategory
-        missileNode.physicsBody?.collisionBitMask = 0
-        missileNode.physicsBody?.usesPreciseCollisionDetection = true
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
+        }else{
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
         
-        self.addChild(missileNode)
-        
-        let animationDuration:TimeInterval = 0.4
-        
-        var actionArray = [SKAction]()
-        
-        actionArray.append(SKAction.move(to: CGPoint(x: starship.position.x, y: UIScreen.main.bounds.height), duration: animationDuration))
-        actionArray.append(SKAction.removeFromParent())
-        
-        missileNode.run(SKAction.sequence(actionArray))
+        if (firstBody.categoryBitMask & photonMissileCategory) != 0 && (secondBody.categoryBitMask & vilainCategory) != 0 {
+           missileDidHitVilain(missileNode: firstBody.node as! SKSpriteNode, vilainNode: secondBody.node as! SKSpriteNode)
+        }
         
     }
+    
+    func missileDidHitVilain (missileNode:SKSpriteNode, vilainNode:SKSpriteNode) {
+    
+        let explosion = SKEmitterNode(fileNamed: "Explosion")!
+        explosion.position = vilainNode.position
+        self.addChild(explosion)
+        
+        self.run(explosionSound)
+        
+        missileNode.removeFromParent()
+        vilainNode.removeFromParent()
         
         
-        
-        func didBegin(_ contact: SKPhysicsContact) {
-            var firstBody:SKPhysicsBody
-            var secondBody:SKPhysicsBody
-            
-            if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-                firstBody = contact.bodyA
-                secondBody = contact.bodyB
-            }else{
-                firstBody = contact.bodyB
-                secondBody = contact.bodyA
-            }
-            
-            if (firstBody.categoryBitMask & photonMissileCategory) != 0 && (secondBody.categoryBitMask & vilainCategory) != 0 {
-               missileDidHitVilain(missileNode: firstBody.node as! SKSpriteNode, vilainNode: secondBody.node as! SKSpriteNode)
-            }
-            
+        self.run(SKAction.wait(forDuration: 2)) {
+            explosion.removeFromParent()
         }
         
-        func missileDidHitVilain (missileNode:SKSpriteNode, vilainNode:SKSpriteNode) {
+        score += 1
         
-            let explosion = SKEmitterNode(fileNamed: "Explosion")!
-            explosion.position = vilainNode.position
-            self.addChild(explosion)
-            
-            self.run(SKAction.playSoundFileNamed("explosion.mp3", waitForCompletion: false))
-            
-            missileNode.removeFromParent()
-            vilainNode.removeFromParent()
-            
-            
-            self.run(SKAction.wait(forDuration: 2)) {
-                explosion.removeFromParent()
-            }
-            
-            score += 1
-            
-            
+        
+    }
+    
+    override func didSimulatePhysics() {
+        
+        starship.position.x += xAcceleration * 30
+        
+        if starship.position.x < -self.size.width/2 {
+            starship.position = CGPoint(x: self.size.width/2, y: starship.position.y)
+        }else if starship.position.x > self.size.width/2{
+            starship.position = CGPoint(x: -self.size.width/2, y: starship.position.y)
         }
         
-        override func didSimulatePhysics() {
-            
-            starship.position.x += xAcceleration * 30
-            
-            if starship.position.x < -self.size.width/2 {
-                starship.position = CGPoint(x: self.size.width/2, y: starship.position.y)
-            }else if starship.position.x > self.size.width/2{
-                starship.position = CGPoint(x: -self.size.width/2, y: starship.position.y)
-            }
-            
-        }
+    }
     
     
     override func update(_ currentTime: TimeInterval) {

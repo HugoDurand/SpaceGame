@@ -1,11 +1,3 @@
-//
-//  GameOverScene.swift
-//  SpaceGame
-//
-//  Created by Hugo Durand on 24/10/2019.
-//  Copyright © 2019 ESGI. All rights reserved.
-//
-
 import SpriteKit
 
 class GameOverScene: SKScene {

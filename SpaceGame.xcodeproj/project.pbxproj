@@ -122,14 +122,22 @@
 				ABA8BC382370901C0019F2B4 /* sounds */,
 				ABD541EA23605C05004B0C0A /* GameViewController.swift */,
 				ABA8BC39237090340019F2B4 /* Elements */,
-				ABD5420A2360841F004B0C0A /* background.png */,
-				ABA8BC3C237164F90019F2B4 /* retry.png */,
+				ABED4E5F237BFE6C0065AA57 /* assets */,
 				ABD541EC23605C05004B0C0A /* Main.storyboard */,
 				ABD541EF23605C07004B0C0A /* Assets.xcassets */,
 				ABD541F123605C07004B0C0A /* LaunchScreen.storyboard */,
 				ABD541F423605C07004B0C0A /* Info.plist */,
 			);
 			path = SpaceGame;
+			sourceTree = "<group>";
+		};
+		ABED4E5F237BFE6C0065AA57 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				ABD5420A2360841F004B0C0A /* background.png */,
+				ABA8BC3C237164F90019F2B4 /* retry.png */,
+			);
+			path = assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
