@@ -15,6 +15,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             scoreLabel.text = "Score: \(score)"
         }
     }
+    var missileCountLabel: SKLabelNode!
+    var missileCount: Int = 10{
+        didSet{
+            missileCountLabel.text = "Missiles: \(missileCount)"
+        }
+    }
     var gameTimer: Timer!
     var vilains = ["vilain", "vilain2", "vilain3"]
     let vilainCategory:UInt32 = 0x1 << 1
@@ -24,6 +30,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var xAcceleration:CGFloat = 0
     
     var livesArray:[SKSpriteNode]!
+    
+    var selectedStarShip: String!
     
     override func didMove(to view: SKView) {
         
@@ -46,7 +54,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         /// STARSHIP
         starship = StarShip(
-            fileName: "millenium-falcon"
+            fileName: selectedStarShip
         )
         starship.position = CGPoint(x: 0 ,y: -(self.frame.height / 2) + starship.size.height)
         self.addChild(starship)
@@ -64,16 +72,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         score = 0
         self.addChild(scoreLabel)
         
+        
+        ///MISSILECOUNT
+        missileCountLabel = SKLabelNode(text: "Missiles: 0")
+        missileCountLabel.position = CGPoint(x: (self.frame.width / 2) - 85, y: (self.frame.height / 2) - 100)
+        missileCountLabel.fontSize = 24
+        missileCount = 10
+        self.addChild(missileCountLabel)
+        
         ///TIMER, INTERVAL BETWEEN VILAIN
         gameTimer = Timer.scheduledTimer(timeInterval: 0.75, target: self, selector:#selector(createVilain), userInfo: nil, repeats: true)
         
         
         ///ACCELEROMETRE
-        motionManager.accelerometerUpdateInterval = 0.2
+        motionManager.accelerometerUpdateInterval = 0.1
         motionManager.startAccelerometerUpdates(to: OperationQueue.current!) { (data:CMAccelerometerData?, error:Error?) in
             if let accelerometerData = data {
                 let acceleration = accelerometerData.acceleration
-                self.xAcceleration = CGFloat(acceleration.x) * 0.75 + self.xAcceleration * 0.25
+                self.xAcceleration = CGFloat(acceleration.x) * 0.25 + self.xAcceleration * 0.75
             }
         }
     }
@@ -126,6 +142,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let transition = SKTransition.fade(withDuration: 0.5)
                     let gameOverScene = GameOverScene(fileNamed: "GameOverScene")!
                     gameOverScene.scoreValue = String(self.score)
+                    gameOverScene.selectedStarShip = self.selectedStarShip
                     self.view?.presentScene(gameOverScene, transition: transition)
                 }
             }
@@ -137,8 +154,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        starship.fireMissile(scene: self, photonMissileCategory: photonMissileCategory, vilainCategory: vilainCategory)
+        if missileCount > 0{
+            starship.fireMissile(scene: self, photonMissileCategory: photonMissileCategory, vilainCategory: vilainCategory)
+            missileCount -= 1
         }
+    }
         
         
     func didBegin(_ contact: SKPhysicsContact) {
@@ -177,12 +197,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         score += 1
         
+        if missileCount <= 7{
+            missileCount += 3
+        }else if missileCount <= 8{
+            missileCount += 2
+        }
+        else if missileCount <= 9{
+            missileCount += 1
+        }
         
     }
     
     override func didSimulatePhysics() {
         
-        starship.position.x += xAcceleration * 30
+        starship.position.x += xAcceleration * 25
         
         if starship.position.x < -self.size.width/2 {
             starship.position = CGPoint(x: self.size.width/2, y: starship.position.y)

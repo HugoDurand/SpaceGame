@@ -24,6 +24,11 @@
 		ABD5420B2360841F004B0C0A /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = ABD5420A2360841F004B0C0A /* background.png */; };
 		ABD5420F2361995C004B0C0A /* GameOverScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = ABD5420E2361995C004B0C0A /* GameOverScene.sks */; };
 		ABD5421123619C5B004B0C0A /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD5421023619C5B004B0C0A /* GameOverScene.swift */; };
+		ABED4E63237C0C400065AA57 /* SelectStarShipScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = ABED4E62237C0C400065AA57 /* SelectStarShipScene.sks */; };
+		ABED4E65237C0C6B0065AA57 /* SelectStarShipScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABED4E64237C0C6B0065AA57 /* SelectStarShipScene.swift */; };
+		ABED4E67237C1C1A0065AA57 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = ABED4E66237C1C1A0065AA57 /* play.png */; };
+		ABED4E6A237C52570065AA57 /* rightArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = ABED4E68237C52570065AA57 /* rightArrow.png */; };
+		ABED4E6B237C52570065AA57 /* leftArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = ABED4E69237C52570065AA57 /* leftArrow.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +51,11 @@
 		ABD5420E2361995C004B0C0A /* GameOverScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameOverScene.sks; sourceTree = "<group>"; };
 		ABD5421023619C5B004B0C0A /* GameOverScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		ABD542122361FA94004B0C0A /* StarShip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarShip.swift; sourceTree = "<group>"; };
+		ABED4E62237C0C400065AA57 /* SelectStarShipScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SelectStarShipScene.sks; sourceTree = "<group>"; };
+		ABED4E64237C0C6B0065AA57 /* SelectStarShipScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStarShipScene.swift; sourceTree = "<group>"; };
+		ABED4E66237C1C1A0065AA57 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
+		ABED4E68237C52570065AA57 /* rightArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rightArrow.png; sourceTree = "<group>"; };
+		ABED4E69237C52570065AA57 /* leftArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leftArrow.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				ABD541E223605C05004B0C0A /* AppDelegate.swift */,
+				ABED4E61237C0C050065AA57 /* SelectStarShipScene */,
 				ABD541E623605C05004B0C0A /* Actions.sks */,
 				ABA8BC3623708F780019F2B4 /* GameOver */,
 				ABD542082360656D004B0C0A /* GameScene.sks */,
@@ -134,10 +145,22 @@
 		ABED4E5F237BFE6C0065AA57 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				ABED4E69237C52570065AA57 /* leftArrow.png */,
+				ABED4E68237C52570065AA57 /* rightArrow.png */,
+				ABED4E66237C1C1A0065AA57 /* play.png */,
 				ABD5420A2360841F004B0C0A /* background.png */,
 				ABA8BC3C237164F90019F2B4 /* retry.png */,
 			);
 			path = assets;
+			sourceTree = "<group>";
+		};
+		ABED4E61237C0C050065AA57 /* SelectStarShipScene */ = {
+			isa = PBXGroup;
+			children = (
+				ABED4E62237C0C400065AA57 /* SelectStarShipScene.sks */,
+				ABED4E64237C0C6B0065AA57 /* SelectStarShipScene.swift */,
+			);
+			path = SelectStarShipScene;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,9 +224,13 @@
 				ABD541FD23605F35004B0C0A /* torpedo.mp3 in Resources */,
 				ABD5420B2360841F004B0C0A /* background.png in Resources */,
 				ABD541FC23605F35004B0C0A /* explosion.mp3 in Resources */,
+				ABED4E63237C0C400065AA57 /* SelectStarShipScene.sks in Resources */,
 				ABD541FF23605F98004B0C0A /* StarField.sks in Resources */,
 				ABD541EE23605C05004B0C0A /* Main.storyboard in Resources */,
+				ABED4E6B237C52570065AA57 /* leftArrow.png in Resources */,
 				ABD541F023605C07004B0C0A /* Assets.xcassets in Resources */,
+				ABED4E6A237C52570065AA57 /* rightArrow.png in Resources */,
+				ABED4E67237C1C1A0065AA57 /* play.png in Resources */,
 				ABD541F323605C07004B0C0A /* LaunchScreen.storyboard in Resources */,
 				ABD541E723605C05004B0C0A /* Actions.sks in Resources */,
 				ABD542092360656D004B0C0A /* GameScene.sks in Resources */,
@@ -222,6 +249,7 @@
 			files = (
 				ABA8BC3B2371614A0019F2B4 /* GameScene.swift in Sources */,
 				ABD541EB23605C05004B0C0A /* GameViewController.swift in Sources */,
+				ABED4E65237C0C6B0065AA57 /* SelectStarShipScene.swift in Sources */,
 				ABD5421123619C5B004B0C0A /* GameOverScene.swift in Sources */,
 				ABA8BC3A237161440019F2B4 /* StarShip.swift in Sources */,
 				ABD541E323605C05004B0C0A /* AppDelegate.swift in Sources */,

@@ -7,6 +7,7 @@ class GameOverScene: SKScene {
     var retryButton: SKSpriteNode!
     var score: SKLabelNode!
     var scoreValue: String!
+    var selectedStarShip: String!
     
     override func didMove(to view: SKView) {
         
@@ -31,6 +32,7 @@ class GameOverScene: SKScene {
             if node[0].name == "retryButton"{
                 let transition = SKTransition.fade(withDuration: 0.5)
                 let scene = GameScene(size: UIScreen.main.bounds.size)
+                scene.selectedStarShip = selectedStarShip
                 scene.scaleMode = .resizeFill
                 self.view!.presentScene(scene, transition: transition)
             }
